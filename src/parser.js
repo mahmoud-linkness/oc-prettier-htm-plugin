@@ -29,7 +29,9 @@ function splitSections(src) {
 
 async function formatPhp(php, options) {
   const trimmed = php.trim();
-  if (!trimmed.startsWith("<?php")) return php;
+  if (!trimmed.startsWith('<?')) {
+    return php;
+  }
   try {
     const out = await prettier.format(trimmed, {
       parser: "php",
