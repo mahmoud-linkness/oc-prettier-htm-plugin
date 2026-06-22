@@ -2,6 +2,9 @@ import { parser } from "./parser.js";
 import { printer } from "./printer.js";
 import { AST_FORMAT } from "./constants.js";
 
+const twigPlugin = await import("@zackad/prettier-plugin-twig");
+const phpPlugin = await import("@prettier/plugin-php");
+
 export const languages = [
   {
     name: "October HTM",
@@ -19,6 +22,8 @@ export const printers = {
 };
 
 export const options = {
+  ...twigPlugin.default.options,
+  ...phpPlugin.options,
   octoberFormatPhp: {
     type: "boolean",
     category: "October HTM",

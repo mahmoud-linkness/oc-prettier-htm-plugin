@@ -39,6 +39,9 @@ async function formatPhp(php, options) {
       useTabs: options.useTabs,
       endOfLine: options.endOfLine,
       singleQuote: options.singleQuote,
+      phpVersion: options.phpVersion,
+      trailingCommaPHP: options.trailingCommaPHP,
+      braceStyle: options.braceStyle,
     });
     return out.trimEnd();
   } catch {

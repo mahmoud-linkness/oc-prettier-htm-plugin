@@ -1,5 +1,7 @@
 {
   "plugins": ["./src/index.js"],
   "tabWidth": 2,
-  "printWidth": 120
+  "printWidth": 120,
+  "twigAlwaysBreakObjects": true,
+  "twigSingleQuote": true
 }

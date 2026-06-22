@@ -49,6 +49,13 @@ prettier --write "**/*.htm"
 | ------------------ | --------- | ------- | ------------------------------------------------------------------------ |
 | `octoberFormatPhp` | `boolean` | `true`  | Format the PHP section. When `false`, the PHP section is kept verbatim.  |
 
+The options from the delegated plugins are re-exported, so they work too:
+
+- Twig markup: `twigAlwaysBreakObjects`, `twigSingleQuote`, `twigMultiTags`, etc.
+  (see [`@zackad/prettier-plugin-twig`](https://github.com/zackad/prettier-plugin-twig)).
+- PHP section: `phpVersion`, `trailingCommaPHP`, `braceStyle`
+  (see [`@prettier/plugin-php`](https://github.com/prettier/plugin-php)).
+
 ```jsonc
 // .prettierrc.json
 {

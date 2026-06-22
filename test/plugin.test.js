@@ -2,7 +2,7 @@ import prettier from "prettier";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 
-const fixture = fileURLToPath(new URL("./fixtures/home.htm", import.meta.url));
+const fixture = fileURLToPath(new URL("./fixtures/index.htm", import.meta.url));
 const pluginPath = fileURLToPath(new URL("../src/index.js", import.meta.url));
 
 import { describe, expect, it } from "vitest";
