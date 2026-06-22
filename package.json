@@ -1,0 +1,53 @@
+{
+  "name": "oc-prettier-htm-plugin",
+  "version": "0.1.0",
+  "description": "Prettier plugin to format October CMS .htm templates (INI/PHP front matter + Twig markup) on top of @zackad/prettier-plugin-twig.",
+  "author": "Mahmoud <mahmoud@linkness.com>",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": {
+      "default": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahmoud-linkness/oc-prettier-htm-plugin.git"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "prettier",
+    "prettier-plugin",
+    "octobercms",
+    "october",
+    "twig",
+    "htm"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@zackad/prettier-plugin-twig": ">=0.17.0",
+    "prettier": "^3.0.0"
+  },
+  "devDependencies": {
+    "@zackad/prettier-plugin-twig": "^0.17.0",
+    "prettier": "^3.8.3",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "^27.9.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-prettier-doc": "^1.1.0",
+    "vitest": "^4.1.9"
+  },
+  "scripts": {
+    "lint": "DEBUG=eslint:cli-engine eslint .",
+    "test": "vitest run",
+    "test-smoke": "prettier --check --parser=twig --plugin=./src/index.js tests/smoke-test.twig"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

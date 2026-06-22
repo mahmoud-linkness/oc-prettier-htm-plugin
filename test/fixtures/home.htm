@@ -1,0 +1,217 @@
+url = "/"
+layout = "default"
+title = "Venezia Porta Est"
+seoOptionsEnabledInSitemap = "true"
+seoOptionsUseUpdatedAt = "true"
+seoOptionsRobotIndex = "index"
+seoOptionsRobotFollow = "follow"
+seoOptionsOgCard = "summary_large_image"
+seoOptionsMetaTitle = ""
+seoOptionsMetaDescription = ""
+
+[highlightProducts]
+limit = 10
+
+[highlightDestinations]
+limit = 10
+
+[blogPosts homeNews]
+pageNumber = "{{ :page }}"
+postsPerPage = 3
+noPostsMessage = "No posts found"
+sortOrder = "published_at desc"
+categoryPage = "magazine_category"
+postPage = "magazine_single"
+==
+<?php
+    function onInit() {
+        //questo codice mostra la label corretta a seconda della categoria della destinazione, ovvero se la mia destinazione è un aeropoto
+        //mi mostra l'etichetta orario arrivo di volo
+        if (get_class($this->item) == "OFFLINE\Mall\Models\Variant") {
+$product = $this->item->product;
+
+$destinationCategory = $product->departure()->first()->category()->first();
+$departureCatId = $destinationCategory->id;
+
+$arrivalCategory = $product->arrival()->first()->category()->first();
+$arrivalCatId = $arrivalCategory->id;
+
+$label = function (int|null $catId, string $side) {
+$type = match($catId) {
+1 => 'airport',
+5 => 'train_station',
+6 => 'port',
+default    => 'default',
+};
+return \Lang::get('lnk.destinations::lang.time_label.' . $side . '.' . $type);
+};
+
+$this['labelOrarioPartenza'] = $label($departureCatId, 'partenza');
+$this['labelOrarioArrivo']   = $label($arrivalCatId, 'arrivo');
+}
+}
+?>
+
+==
+<section class="mb-xl-200" id="home-hero">
+  <img class="hero-img" src="{{ 'assets/resources/images/home/home-hero.jpg' | theme }}" alt="Venezia Porta est">
+  <div class="search-info trans-d-70">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          {% component 'tinyMCE' file="home-hero-title" class="text-white pb-3 pb-xl-5" %}
+          {% partial 'heroSearchBar/default' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-5 pb-5 overflow-hidden">
+  <div class="container-xl">
+    <div class="row g-5">
+      <div class="col-12">
+        {% component 'tinyMCE' file="home-transfers-list" class="" %}
+      </div>
+      {% for tr in productsHighlight %}
+        <div class="col-lg-6 col-xl-3">
+          {% partial 'transferCard/card' product=tr %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section style="min-height: 80vh" class="d-flex align-items-center">
+  <div class="container-xl">
+    <div class="row">
+      <div class="col-xl-4 offset-xl-1 d-flex align-items-center">
+        <div class="">
+          {% component 'tinyMCE' file="home-serv-title" class="mb-4" %}
+          {% component 'tinyMCE' file="home-serv-par" class="mb-4" %}
+          <a class="muted-btn" href="{{ 'chi-siamo' |page }}">{{ 'scopri chi siamo'|_ }}</a>
+        </div>
+      </div>
+      <div class="col-xl-6 offset-xl-1 position-relative">
+        <div class="abs-pose-list">
+          {% component 'tinyMCE' file="home-about-us" class="text-white" %}
+        </div>
+        <img class="w-100" src="{{ 'assets/resources/images/home/3.jpg' | theme }}" alt="VPE">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if posts | length > 0 %}
+
+  <section class="overflow-hidden">
+    <div class="container-xl pb-5">
+      <div class="row py-xl-5">
+        <div class="offset-xl-1 col-xl-10 text-center py-5">
+          <h3>{{ 'News'|_ }}</h3>
+        </div>
+        <div class="offset-xl-1 col-xl-10">
+          {% component 'homeNews' %}
+        </div>
+        <div class="offset-xl-1 col-xl-10 text-center py-5">
+          <a class="muted-btn" href="{{ 'magazine'| page }}">{{ 'vedi tutte'|_ }}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endif %}
+
+<section class="quad-conteiner pb-xl-100">
+  <div class="row p-0">
+    <div class="col-xl-4 p-0">
+      <a href="{{ 'destinations'|page }}" style="background-image: url('{{ 'assets/resources/images/home/4.jpg'| theme }}')" class="quad-img">
+        <div class="text-white quad-img__infos">
+          <h4>{{ 'Trasfer privati'|_ }}</h4>
+          <p class="m-0">{{ 'Servizi NCC privati con autisti professionali per' }}</p>
+          <p class="m-0 pb-3">{{ 'aeroporti, hotel, porti e qualsiasi destinazione.' }}</p>
+          <div class="muted-link-w mt-3">
+            {{ 'scopri le tratte'|_ }}
+            <span class="icon">
+                            <img src="{{ 'assets/resources/images/icons/arrow_icon_w.svg'| theme }}" alt="arrow icon">
+                        </span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-xl-4 p-0">
+      <a href="{{ 'business_mice'|page }}" style="background-image: url('{{ 'assets/resources/images/home/5.jpg'| theme }}')" class="quad-img">
+        <div class="text-white quad-img__infos">
+          <h4>{{ 'Business e MICE'|_ }}</h4>
+          <p class="m-0">{{ 'Tutte le soluzioni dedicate ad aziende,' }}</p>
+          <p class="m-0 pb-3">{{ 'eventi, meeting e ospiti internazionali.' }}</p>
+          <div class="muted-link-w mt-3">
+            {{ 'scopri di più'|_ }}
+            <span class="icon">
+                            <img src="{{ 'assets/resources/images/icons/arrow_icon_w.svg'| theme }}" alt="arrow icon">
+                        </span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-xl-4 p-0">
+      <a href="{{ 'tour'|page }}" style="background-image: url('{{ 'assets/resources/images/home/6.jpg'| theme }}')" class="quad-img w-100">
+        <div class="text-white quad-img__infos">
+          <h4>{{ 'Tour ed escursioni'|_ }}</h4>
+          <p class="m-0">{{ 'Esperienze personalizzate tra città d’arte,' }}</p>
+          <p class="m-0 pb-3">{{ 'colline, laguna e destinazioni esclusive.' }}</p>
+          <div class="muted-link-w mt-3">
+            {{ 'scopri le destinazioni'|_ }}
+            <span class="icon">
+                            <img src="{{ 'assets/resources/images/icons/arrow_icon_w.svg'| theme }}" alt="arrow icon">
+                        </span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="dest-container py-5">
+  <div class="container-xl py-xl-5">
+    <div class="row row-cols-xl-5">
+      {% for dest in destinationsHighlight %}
+        <div class="col-xl col-12">
+          <a href="" class="dest-card">
+            {% if dest.preview_image %}
+              <img src="{{ dest.preview_image | media }}" alt="">
+            {% else %}
+              <img class="w-100" src="{{ 'assets/resources/images/home/home-hero.jpg' | theme }}" alt="Venezia Porta est">
+            {% endif %}
+            <div class="dest-card__infos">
+              <h6 class="fw-bold">{{ dest.name }}</h6>
+              <span>{{ 'scopri il transfer'|_ }}</span>
+            </div>
+
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="contacts-bar">
+      <div class="row">
+        <div class="col-xl-8">
+          {% component 'tinyMCE' file="home-contact-bar" class="mb-5" %}
+          <a style="padding-right: 4rem" href="" class="std-btn">{{ 'contattaci'|_ }}<span class="icon"><img src="{{ 'assets/resources/images/icons/busta_tasto_contattaci.svg'| theme }}" alt="arrow icon"></span></a>
+        </div>
+
+        <div class="col-xl-4 d-flex align-items-center">
+          <div class="pose-list">
+            {% component 'tinyMCE' file="home-contact-listr" class="mb-0" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
