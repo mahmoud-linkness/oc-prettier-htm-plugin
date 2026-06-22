@@ -1,0 +1,8 @@
+url = "/blog"
+layout = "default"
+==
+<div class="list">
+{% for post in posts %}
+  <article>{{ post.title }}</article>
+{% endfor %}
+</div>
