@@ -14,9 +14,13 @@ only `==`:
 ```
 
 Vanilla Prettier (and the Twig plugin) collapse the INI/PHP front matter into
-garbage. This plugin keeps everything up to and including the last `==` line
-**verbatim** and formats only the final markup section, delegating to
-[`@zackad/prettier-plugin-twig`](https://github.com/zackad/prettier-plugin-twig).
+garbage. This plugin handles each section appropriately:
+
+- the **INI configuration** is kept verbatim,
+- the **PHP** section is formatted with
+  [`@prettier/plugin-php`](https://github.com/prettier/plugin-php),
+- the **Twig + HTML markup** is formatted with
+  [`@zackad/prettier-plugin-twig`](https://github.com/zackad/prettier-plugin-twig).
 
 ## Install
 
@@ -37,4 +41,18 @@ Then `.htm` files are formatted like any other file:
 
 ```bash
 prettier --write "**/*.htm"
+```
+
+## Options
+
+| Option             | Type      | Default | Description                                                              |
+| ------------------ | --------- | ------- | ------------------------------------------------------------------------ |
+| `octoberFormatPhp` | `boolean` | `true`  | Format the PHP section. When `false`, the PHP section is kept verbatim.  |
+
+```jsonc
+// .prettierrc.json
+{
+  "plugins": ["oc-prettier-htm-plugin"],
+  "octoberFormatPhp": false
+}
 ```
