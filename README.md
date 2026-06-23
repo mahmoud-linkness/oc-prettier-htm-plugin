@@ -25,7 +25,7 @@ garbage. This plugin handles each section appropriately:
 ## Install
 
 ```bash
-TODO
+npm install --save-dev git+https://github.com/mahmoud-linkness/oc-prettier-htm-plugin.git#v0.1.0
 ```
 
 ## Usage
