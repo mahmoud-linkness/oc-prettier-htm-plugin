@@ -32,10 +32,10 @@
     "prettier": "^3.0.0"
   },
   "dependencies": {
-    "@prettier/plugin-php": "^0.25.0"
+    "@prettier/plugin-php": "^0.26.0"
   },
   "devDependencies": {
-    "@zackad/prettier-plugin-twig": "^0.17.0",
+    "@zackad/prettier-plugin-twig": "^0.18.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
