@@ -47,6 +47,13 @@ describe("Prettier October HTM plugin", () => {
         }
       });
 
+      if (file === "markup-only.htm") {
+        it("keeps a twig tag's key=value attributes on one line (zackad/prettier-plugin-twig#153)", async () => {
+          const out = await format(src);
+          expect(out).toContain("{% component 'tinyMCE' file = 'x' class = 'y' %}");
+        });
+      }
+
       if (hasPhp) {
         it("formats the PHP section by default", async () => {
           // Brace moves to its own line: proof of formatting regardless of the
