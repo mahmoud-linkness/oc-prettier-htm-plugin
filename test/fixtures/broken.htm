@@ -1,0 +1,19 @@
+url = "/cookie-policy" layout = "default" title = "Cookie Policy" seoOptionsEnabledInSitemap = 0
+seoOptionsUseUpdatedAt = 0 seoOptionsRobotIndex = "noindex" seoOptionsRobotFollow = "nofollow"
+seoOptionsOgCard = "summary_large_image" ==
+<section class="container-fluid bg-black text-white pt-5">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            {% set items = { 'Cookie Policy': 'cookie-policy'|page } %} {% partial
+               'site/breadcrumbs' items = items %}
+         </div>
+         <div class="col-12 text-center mt-3 mb-5">
+            <h1 class="fw-bold">{{ this.page.title }}</h1>
+         </div>
+      </div>
+   </div>
+</section>
+<section class="container pt-150 pb-100">
+   {% component 'contenteditor' file = 'cookie-policy-content.htm' %}
+</section>

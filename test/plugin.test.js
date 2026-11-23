@@ -38,7 +38,7 @@ describe("Prettier October HTM plugin", () => {
         expect(out2).toBe(out);
       });
 
-      it(hasFrontMatter ? "keeps the INI section verbatim" : "adds no front matter", async () => {
+      it(hasFrontMatter ? "normalizes the INI section" : "adds no front matter", async () => {
         const out = await format(src);
         if (hasFrontMatter) {
           expect(out.startsWith(sections(src).ini + "\n==\n")).toBe(true);
@@ -46,6 +46,13 @@ describe("Prettier October HTM plugin", () => {
           expect(out.includes("\n==\n")).toBe(false);
         }
       });
+
+      if (hasFrontMatter) {
+        it("keeps the INI section verbatim when octoberFormatIni is false", async () => {
+          const out = await format(src, { octoberFormatIni: false });
+          expect(sections(out).ini).toBe(sections(src).ini);
+        });
+      }
 
       if (file === "markup-only.htm") {
         it("keeps a twig tag's key=value attributes on one line (zackad/prettier-plugin-twig#153)", async () => {
@@ -69,4 +76,85 @@ describe("Prettier October HTM plugin", () => {
       }
     });
   }
+
+  describe("broken.htm", () => {
+    const src = read("broken.htm");
+
+    it("recovers the ini/markup boundary and inserts a clean `==` separator", async () => {
+      const out = await format(src);
+      expect(out).toContain('\n==\n<section class="container-fluid');
+      expect(out.startsWith('url = "/cookie-policy"')).toBe(true);
+    });
+
+    it("reflows the squashed ini keys to one per line", async () => {
+      const out = await format(src);
+      expect(out).toContain(
+        [
+          'url = "/cookie-policy"',
+          'layout = "default"',
+          'title = "Cookie Policy"',
+          "seoOptionsEnabledInSitemap = 0",
+          "seoOptionsUseUpdatedAt = 0",
+          'seoOptionsRobotIndex = "noindex"',
+          'seoOptionsRobotFollow = "nofollow"',
+          'seoOptionsOgCard = "summary_large_image"'
+        ].join("\n")
+      );
+    });
+
+    it("is idempotent", async () => {
+      const out = await format(src);
+      const out2 = await format(out);
+      expect(out2).toBe(out);
+    });
+  });
+
+  describe("broken-with-php.htm", () => {
+    const src = read("broken-with-php.htm");
+
+    it("recovers ini, php and markup as three clean sections", async () => {
+      const out = await format(src);
+      expect(out.startsWith('url = "/"\nlayout = "default"')).toBe(true);
+      expect(out).toContain('\n==\n<?');
+      expect(out).toContain('function onInit()\n{\n');
+      expect(out).toContain('\n==\n<section>');
+    });
+
+    it("is idempotent", async () => {
+      const out = await format(src);
+      const out2 = await format(out);
+      expect(out2).toBe(out);
+    });
+  });
+
+  describe("broken-reversed.htm", () => {
+    const src = read("broken-reversed.htm");
+
+    it("recovers ini, php and markup as three clean sections", async () => {
+      const out = await format(src);
+      expect(out.startsWith('url = "/"\nlayout = "default"\ntitle = "Home"')).toBe(true);
+      expect(out).toContain('\n==\n<?');
+      expect(out).toContain('function onInit()\n{\n');
+      expect(out).toContain('\n==\n<section>');
+    });
+
+    it("is idempotent", async () => {
+      const out = await format(src);
+      const out2 = await format(out);
+      expect(out2).toBe(out);
+    });
+  });
+
+  describe("ini comments", () => {
+    const src = ['## leftover heading junk url = "/"', 'layout = "default" title = "Home"', '==', '<div></div>'].join(
+      "\n"
+    );
+
+    it("keeps the comment line and still reflows the rest", async () => {
+      const out = await format(src);
+      expect(out.startsWith('## leftover heading junk url = "/"\nlayout = "default"\ntitle = "Home"\n==\n')).toBe(
+        true
+      );
+    });
+  });
 });

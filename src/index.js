@@ -29,6 +29,12 @@ export const options = {
     category: 'October HTM',
     default: true,
     description: 'Format the PHP section with @prettier/plugin-php. When false, it is kept verbatim.'
+  },
+  octoberFormatIni: {
+    type: 'boolean',
+    category: 'October HTM',
+    default: true,
+    description: 'Reflow the ini front matter to one `[section]`/`key = value` statement per line. When false, it is kept verbatim.'
   }
 };
 
