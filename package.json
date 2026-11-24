@@ -1,6 +1,6 @@
 {
   "name": "oc-prettier-htm-plugin",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Prettier plugin to format October CMS .htm templates (INI/PHP front matter + Twig markup) on top of @zackad/prettier-plugin-twig.",
   "author": "Mahmoud <mahmoud@linkness.com>",
   "type": "module",
